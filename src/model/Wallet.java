@@ -136,6 +136,14 @@ public class Wallet {
         return balanceUsd;
     }
 
+    public synchronized Map<String, Double> getAssets() {
+        return new HashMap<>(assets);
+    }
+
+    public synchronized List<Transaction> getTransactionHistory() {
+        return new ArrayList<>(transactionHistory);
+    }
+
     private void validatePositive(double value) {
         if (value <= EPSILON) {
             // to do : handle logic
