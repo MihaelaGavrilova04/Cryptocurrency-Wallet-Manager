@@ -100,6 +100,11 @@ public class Wallet {
         double profit = currentValue - totalInvested;
         double returnPercentage = totalInvested > EPSILON ? (profit / totalInvested) * TO_PERCENTAGE : MINIMUM_AMOUNT;
 
+        return buildString(currentPrices, totalInvested, currentValue, profit, returnPercentage);
+    }
+
+    private String buildString(Map<String, Double> currentPrices, double totalInvested,
+                               double currentValue, double profit, double returnPercentage) {
         StringBuilder summary = new StringBuilder();
         summary.append(WALLET_OVERALL_SUMMARY_MESSAGE)
                 .append(String.format("Total Invested: $%.2f%n", totalInvested))
@@ -115,7 +120,8 @@ public class Wallet {
                 if (currentPrice != null) {
                     double assetProfit = calculateAssetProfit(assetId, currentPrice);
                     double assetInvested = getAssetInvested(assetId);
-                    double assetReturn = assetInvested > EPSILON ? (assetProfit / assetInvested) * TO_PERCENTAGE : MINIMUM_AMOUNT;
+                    double assetReturn = assetInvested > EPSILON ? (assetProfit / assetInvested)
+                            * TO_PERCENTAGE : MINIMUM_AMOUNT;
 
                     summary.append(String.format("  %s: Profit $%.2f PERCENTAGE PROFIT: %.2f%n",
                             assetId, assetProfit, assetReturn));
