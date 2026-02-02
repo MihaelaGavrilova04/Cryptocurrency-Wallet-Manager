@@ -24,7 +24,7 @@ public record User(String email, String passwordHash, Wallet wallet) {
         String hashedPassword = getHashedPassword(plainPassword);
 
         Wallet newWallet = new Wallet();
-        newWallet.deposit(wallet.getDeposit());
+        newWallet.deposit(wallet.getBalanceUsd());
 
         return new User(email, hashedPassword, newWallet);
     }
