@@ -84,9 +84,14 @@ public class Wallet {
 
     public synchronized String getWalletSummary(Map<String, Double> currentPrices) {
         StringBuilder summary = new StringBuilder();
-        summary.append(WALLET_SUMMARY_MESSAGE).append(BALANCE_MESSAGE).append("$").append(balanceUsd);
+        summary.append(WALLET_SUMMARY_MESSAGE)
+                .append(BALANCE_MESSAGE)
+                .append("$")
+                .append(balanceUsd)
+                .append(System.lineSeparator());
 
         summary.append(TRANSACTION_MESSAGE).append(System.lineSeparator());
+
         for (Transaction transaction : transactionHistory) {
             summary.append(transaction.toString());
         }
