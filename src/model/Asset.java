@@ -8,5 +8,11 @@ public record Asset(@SerializedName("asset_id")
                     @SerializedName("type_is_crypto")
                     int isCrypto,
                     @SerializedName("price_usd")
-                    double price) {
+                    Double price) {
+
+    private static final int IS_CRYPTO = 1;
+
+    public boolean isCryptoAsset() {
+        return isCrypto == IS_CRYPTO;
+    }
 }

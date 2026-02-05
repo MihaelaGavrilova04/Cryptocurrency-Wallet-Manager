@@ -5,13 +5,12 @@ import util.GsonProvider;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class АpiCall {
+public class ApiCall {
 
     private final HttpClient httpClient;
     private final String apiKey;
@@ -21,7 +20,7 @@ public class АpiCall {
 
     private static final String API_KEY_HEADER = "X-CoinAPI-Key";
 
-    public АpiCall(String apiKey, HttpClient httpClient) {
+    public ApiCall(String apiKey, HttpClient httpClient) {
 
         validateObjectConstruction(apiKey, httpClient);
 
@@ -33,7 +32,7 @@ public class АpiCall {
 
     public HttpResponse<String> fetchAll() {
         URI uri = coinApiURIBuilder.build();
-
+        System.out.println(uri.toString());
         return fetchResponse(uri);
     }
 
@@ -84,4 +83,5 @@ public class АpiCall {
             throw new IllegalArgumentException("Asset ID cannot be null or blank");
         }
     }
+
 }

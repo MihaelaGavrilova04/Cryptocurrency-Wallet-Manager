@@ -23,7 +23,16 @@ public class CoinApiURIBuilder {
                 pathBuilder.append("/").append(assetId);
             }
 
-            return new URI(SCHEME, HOST, pathBuilder.toString());
+            return new URI(
+                    SCHEME,
+                    null,
+                    HOST,
+                    -1,
+                    pathBuilder.toString(),
+                    null,
+                    null
+            );
+
         } catch (URISyntaxException e) {
             // TO DO : HANDLE LOGIC GLOBALLY
             throw new IllegalStateException(e);
