@@ -1,4 +1,8 @@
-package command.unauthenticated;
+package command;
 
-public class RegisterCommand {
+public final class RegisterCommand implements PublicCommand {
+    @Override
+    public String execute() {
+        return "";
+    }
 }

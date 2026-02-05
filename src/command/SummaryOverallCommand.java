@@ -1,12 +1,30 @@
-package command.authenticated;
+package command;
 
-import command.Command;
+import api.AssetCache;
+import model.Asset;
+import model.User;
 
-import java.nio.channels.SelectionKey;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
-public class SummaryOverallCommand implements Command {
+public final class SummaryOverallCommand implements AuthenticatedCommand {
+
     @Override
-    public String execute(String[] input, SelectionKey key) {
-        return "";
+    public String execute(User user, AssetCache cache) {
+        List<Asset> availableAssets = cache.getCachedValues();
+
+        if (availableAssets == null || availableAssets.isEmpty()) {
+            return "No data for available assets present.";
+        }
+
+        Map<String, Double> currentPrices = availableAssets.stream()
+                .filter(asset -> asset != null && asset.id() != null && asset.price() != null)
+                .collect(Collectors.toMap(
+                        Asset::id,
+                        Asset::price
+                ));
+
+        return user.wallet().getWalletOverallSummary(currentPrices);
     }
 }

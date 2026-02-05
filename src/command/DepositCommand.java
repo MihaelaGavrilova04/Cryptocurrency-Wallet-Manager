@@ -1,12 +1,19 @@
-package command.authenticated;
+package command;
 
-import command.Command;
+import api.AssetCache;
+import model.User;
 
-import java.nio.channels.SelectionKey;
+public final class DepositCommand implements AuthenticatedCommand {
+    private final double moneyToDeposit;
 
-public class DepositCommand implements Command {
-    @Override
-    public String execute(String[] input, SelectionKey key) {
-        return "";
+    public DepositCommand(double moneyToDeposit) {
+        this.moneyToDeposit = moneyToDeposit;
     }
+
+    @Override
+    public String execute(User user, AssetCache cache) {
+        user.wallet().deposit(moneyToDeposit);
+
+        return String.format("$%.2f deposited successfully to %s's balance",
+                moneyToDeposit, user.email());    }
 }

@@ -1,12 +1,9 @@
-package command.unauthenticated;
+package command;
 
-import command.Command;
+public final class LoginCommand implements PublicCommand {
 
-import java.nio.channels.SelectionKey;
-
-public class LoginCommand implements Command {
     @Override
-    public String execute(String[] input, SelectionKey key) {
+    public String execute() {
         return "";
     }
 }

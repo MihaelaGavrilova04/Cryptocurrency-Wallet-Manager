@@ -1,12 +1,12 @@
-package command.authenticated;
+package command;
 
-import command.Command;
+import api.AssetCache;
+import model.User;
 
-import java.nio.channels.SelectionKey;
+public final class SummaryCommand implements AuthenticatedCommand {
 
-public class SummaryCommand implements Command {
     @Override
-    public String execute(String[] input, SelectionKey key) {
-        return "";
+    public String execute(User user, AssetCache cache) {
+        return user.wallet().getWalletSummary();
     }
 }

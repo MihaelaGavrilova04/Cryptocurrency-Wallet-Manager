@@ -1,10 +1,10 @@
-package command.authenticated;
+package command;
 
 import api.AssetCache;
-import command.Command;
 import model.User;
 
-public sealed interface AuthenticatedCommand extends Command permits BuyCommand, DepositCommand, SummaryCommand {
+public sealed interface AuthenticatedCommand extends Command permits BuyCommand, SellCommand,
+        DepositCommand, SummaryCommand, SummaryOverallCommand, LogoutCommand {
     String execute(User user, AssetCache cache);
 
     @Override

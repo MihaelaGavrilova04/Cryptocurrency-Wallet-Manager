@@ -1,6 +1,4 @@
-package command.unauthenticated;
+package command;
 
-import command.Command;
-
-public sealed interface PublicCommand extends Command permits RegisterCommand, LoginCommand, HelpCommand {
+public sealed interface PublicCommand extends Command permits RegisterCommand, LoginCommand, HelpCommand, ListCommand {
 }

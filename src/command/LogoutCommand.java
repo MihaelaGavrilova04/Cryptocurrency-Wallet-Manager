@@ -1,12 +1,12 @@
-package command.authenticated;
+package command;
 
-import command.Command;
+import api.AssetCache;
+import model.User;
 
-import java.nio.channels.SelectionKey;
+public final class LogoutCommand implements AuthenticatedCommand {
 
-public class LogoutCommand implements Command {
     @Override
-    public String execute(String[] input, SelectionKey key) {
+    public String execute(User user, AssetCache cache) {
         return "";
     }
 }

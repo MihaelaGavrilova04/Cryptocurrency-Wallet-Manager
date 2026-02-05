@@ -82,7 +82,7 @@ public class Wallet {
         return true;
     }
 
-    public synchronized String getWalletSummary(Map<String, Double> currentPrices) {
+    public synchronized String getWalletSummary() {
         StringBuilder summary = new StringBuilder();
         summary.append(WALLET_SUMMARY_MESSAGE)
                 .append(BALANCE_MESSAGE)

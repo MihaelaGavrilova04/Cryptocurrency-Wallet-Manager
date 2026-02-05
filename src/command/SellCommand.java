@@ -1,12 +1,25 @@
-package command.authenticated;
+package command;
 
-import command.Command;
+import api.AssetCache;
+import model.User;
 
-import java.nio.channels.SelectionKey;
+public final class SellCommand implements AuthenticatedCommand {
+    private final String assetId;
 
-public class SellCommand implements Command {
+    public SellCommand(String assetId) {
+        this.assetId = assetId;
+    }
+
     @Override
-    public String execute(String[] input, SelectionKey key) {
-        return "";
+    public String execute(User user, AssetCache cache) {
+        Double currentPrice = cache.getAssetPrice(assetId);
+
+        if (currentPrice == null) {
+            return String.format("Asset '%s''s price unavailable.", assetId);
+        }
+
+        return (user.wallet().sell(assetId, currentPrice)) ?
+                String.format("%s successfully sold %s", user.email(), assetId) :
+                String.format("%s could not sell %s", user.email(), assetId);
     }
 }

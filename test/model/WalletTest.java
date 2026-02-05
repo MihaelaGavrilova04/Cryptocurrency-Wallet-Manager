@@ -147,9 +147,7 @@ public class WalletTest {
         Wallet wallet = new Wallet();
         wallet.deposit(1000.0);
 
-        Map<String, Double> prices = Map.of("BTC", 50000.0);
-
-        String summary = wallet.getWalletSummary(prices);
+        String summary = wallet.getWalletSummary();
 
         assertNotNull(summary);
         assertTrue(summary.contains("$1000"));
@@ -164,8 +162,7 @@ public class WalletTest {
         boolean btcResult = wallet.buy("BTC", 500, 0.1);
         boolean ethResult = wallet.buy("ETH", 200.0, 2.0);
 
-        Map<String, Double> prices = Map.of("BTC", 500.0, "ETH", 200.0);
-        String summary = wallet.getWalletSummary(prices);
+        String summary = wallet.getWalletSummary();
 
         assertNotNull(summary);
 
@@ -180,9 +177,7 @@ public class WalletTest {
         Wallet wallet = new Wallet();
         wallet.deposit(500.0);
 
-        Map<String, Double> prices = new HashMap<>();
-
-        String summary = wallet.getWalletSummary(prices);
+        String summary = wallet.getWalletSummary();
 
         assertNotNull(summary);
         assertFalse(summary.isEmpty());

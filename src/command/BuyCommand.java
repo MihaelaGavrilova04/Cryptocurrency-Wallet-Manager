@@ -1,6 +1,8 @@
-package command.authenticated;
+package command;
 
+import api.AssetCache;
 import model.User;
+
 public final class BuyCommand implements AuthenticatedCommand {
     private final String assetId;
     private final double money;
@@ -13,7 +15,9 @@ public final class BuyCommand implements AuthenticatedCommand {
     @Override
     public String execute(User user, AssetCache cache) {
         Double price = cache.getAssetPrice(assetId);
-        if (price == null) return "Asset not found.";
+        if (price == null) {
+            return "Asset not found.";
+        }
 
         boolean success = user.wallet().buy(assetId, price, money);
 
