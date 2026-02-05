@@ -9,8 +9,12 @@ import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -19,23 +23,21 @@ import java.util.stream.Collectors;
 public class AssetCache implements AutoCloseable {
     private static final int CACHE_DURATION = 30;
     private static final int MAX_NUMBER_OF_ASSETS_IN_CACHE = 100;
-    private static final Type ASSET_LIST_TYPE = new TypeToken<List<Asset>>() {
-    }.getType();
+    private static final Type ASSET_LIST_TYPE = new TypeToken<List<Asset>>() { }.getType();
     private final Gson gson;
     private final ScheduledExecutorService scheduler;
-    private List<Asset> cache;
+    private final Map<String, Asset> assetCache;
     private final ApiCall apiCall;
     private LocalDateTime lastUpdated;
 
     public AssetCache(ApiCall apiCall) {
         this.apiCall = apiCall;
         gson = GsonProvider.getGson();
-        this.cache = Collections.emptyList();
+        this.assetCache = new ConcurrentHashMap<>();
         this.scheduler = Executors.newSingleThreadScheduledExecutor();
 
-        scheduler.schedule(this::updateCache, 0, TimeUnit.SECONDS);
+        updateCache();
         scheduler.scheduleAtFixedRate(this::updateCache, CACHE_DURATION, CACHE_DURATION, TimeUnit.MINUTES);
-        System.out.println("Schedule scheduled an api call !");
     }
 
     public synchronized boolean isCacheExpired() {
@@ -43,7 +45,10 @@ public class AssetCache implements AutoCloseable {
     }
 
     public List<Asset> getCachedValues() {
-        return cache != null ? Collections.unmodifiableList(cache) : Collections.emptyList();
+        if (assetCache == null) {
+            return Collections.emptyList();
+        }
+        return List.copyOf(assetCache.values());
     }
 
     @Override
@@ -51,16 +56,50 @@ public class AssetCache implements AutoCloseable {
         shutdown();
     }
 
+    public Asset getAssetById(String assetId) {
+        return assetCache.get(assetId.toUpperCase());
+    }
+
+    public Double getAssetPrice(String assetId) {
+        Asset asset = getAssetById(assetId);
+        return asset != null ? asset.price() : null;
+    }
+
+    public boolean containsAsset(String assetId) {
+        return assetCache.containsKey(assetId.toUpperCase());
+    }
+
+    public int getAssetCount() {
+        return assetCache.size();
+    }
+
     private synchronized void shutdown() {
         this.scheduler.shutdown();
     }
 
     private synchronized void updateCache() {
+        try {
+            HttpResponse<String> response = apiCall.fetchAll();
 
-        HttpResponse<String> response = apiCall.fetchAll();
-        if (response.statusCode() == HttpURLConnection.HTTP_OK) {
-            cache = parseResponse(response.body());
-            lastUpdated = LocalDateTime.now();
+            if (response.statusCode() == HttpURLConnection.HTTP_OK) {
+                List<Asset> assets = parseResponse(response.body());
+                updateCacheMap(assets);
+                lastUpdated = LocalDateTime.now();
+            } else {
+                // handle
+            }
+        } catch (Exception e) {
+            // handle
+            System.err.println("Error updating cache: " + e.getMessage());
+        }
+    }
+
+    private void updateCacheMap(List<Asset> assets) {
+        assetCache.clear();
+        for (Asset asset : assets) {
+            if (asset != null && asset.id() != null) {
+                assetCache.put(asset.id().toUpperCase(), asset);
+            }
         }
     }
 
@@ -69,12 +108,11 @@ public class AssetCache implements AutoCloseable {
             List<Asset> allAssets = gson.fromJson(jsonResponse, ASSET_LIST_TYPE);
 
             if (allAssets == null || allAssets.isEmpty()) {
-                System.out.println("Hello");
-                return List.of();
+                return Collections.emptyList();
             }
 
             return allAssets.stream()
-                    .filter(asset -> asset != null)
+                    .filter(Objects::nonNull)
                     .filter(Asset::isCryptoAsset)
                     .filter(asset -> asset.price() != null && asset.price() > 0)
                     .filter(a -> a.id() != null && !a.id().isBlank())
