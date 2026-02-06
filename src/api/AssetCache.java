@@ -2,14 +2,15 @@ package api;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import exception.AssetNotFoundException;
+import exception.CoinAPIException;
+import logger.Logger;
 import model.Asset;
 import util.GsonProvider;
 
 import java.lang.reflect.Type;
-import java.net.HttpURLConnection;
 import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +31,11 @@ public class AssetCache implements AutoCloseable {
     private final ApiCall apiCall;
     private LocalDateTime lastUpdated;
 
+    private static final Logger LOGGER = Logger.getInstance();
+
     public AssetCache(ApiCall apiCall) {
+        validateApiCall(apiCall);
+
         this.apiCall = apiCall;
         gson = GsonProvider.getGson();
         this.assetCache = new ConcurrentHashMap<>();
@@ -52,7 +57,7 @@ public class AssetCache implements AutoCloseable {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() {
         shutdown();
     }
 
@@ -81,16 +86,14 @@ public class AssetCache implements AutoCloseable {
         try {
             HttpResponse<String> response = apiCall.fetchAll();
 
-            if (response.statusCode() == HttpURLConnection.HTTP_OK) {
-                List<Asset> assets = parseResponse(response.body());
-                updateCacheMap(assets);
-                lastUpdated = LocalDateTime.now();
-            } else {
-                // handle
-            }
+            List<Asset> assets = parseResponse(response.body());
+            updateCacheMap(assets);
+            lastUpdated = LocalDateTime.now();
+
+        } catch (CoinAPIException | AssetNotFoundException e) {
+            LOGGER.log(e, "SYSTEM_CACHE");
         } catch (Exception e) {
-            // handle
-            System.err.println("Error updating cache: " + e.getMessage());
+            LOGGER.log(e, "SYSTEM_FATAL");
         }
     }
 
@@ -111,7 +114,8 @@ public class AssetCache implements AutoCloseable {
                 return Collections.emptyList();
             }
 
-            return allAssets.stream()
+            return allAssets
+                    .stream()
                     .filter(Objects::nonNull)
                     .filter(Asset::isCryptoAsset)
                     .filter(asset -> asset.price() != null && asset.price() > 0)
@@ -121,8 +125,14 @@ public class AssetCache implements AutoCloseable {
                     .collect(Collectors.toList());
 
         } catch (Exception e) {
-            // to do: handle logging & error handling
-            throw new RuntimeException("fix");
+            LOGGER.log(e, "SYSTEM");
+            throw new RuntimeException("Can not parse json object to Asset Java object.");
+        }
+    }
+
+    private static void validateApiCall(ApiCall apiCall) {
+        if (apiCall == null) {
+            throw new IllegalArgumentException("Parameter 'ApiCall' passed to construct AssetCache object is null");
         }
     }
 }

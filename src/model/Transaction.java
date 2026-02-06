@@ -25,7 +25,12 @@ public record Transaction(String assetID, double pricePerUnit, double quantity,
     }
 
     public String toCsv() {
-        return String.format("%s,%s,%s,%.2f,%.6f,%.2f", timestamp.toString(), type.name(), assetID, pricePerUnit,
-                quantity, pricePerUnit * quantity);
+        return String.format("%s,%s,%s,%.2f,%.6f,%.2f",
+                timestamp.toString(),
+                type.name(),
+                (assetID == null ? "None" : assetID),
+                pricePerUnit,
+                quantity,
+                pricePerUnit * quantity);
     }
 }

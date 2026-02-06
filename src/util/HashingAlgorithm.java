@@ -10,8 +10,7 @@ public class HashingAlgorithm {
     public static String getHashedPassword(String password) {
 
         if (password == null) {
-            // TO DO:
-            // ERROR HANDLING
+            throw new IllegalArgumentException("Password passed to function can not be null!");
         }
 
         try {
@@ -24,8 +23,7 @@ public class HashingAlgorithm {
             return hexString.toString();
 
         } catch (NoSuchAlgorithmException e) {
-            // TO DO : HANDLE
-            throw new RuntimeException(e);
+            throw new RuntimeException("No such algorithm", e);
         }
     }
 

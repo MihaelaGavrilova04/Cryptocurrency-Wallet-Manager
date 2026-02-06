@@ -1,4 +1,4 @@
-package command;
+package command.commands;
 
 import api.AssetCache;
 import model.User;

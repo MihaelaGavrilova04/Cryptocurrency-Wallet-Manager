@@ -5,6 +5,7 @@ package repository;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import model.User;
+import util.GsonProvider;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -14,21 +15,33 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class UserRepository {
     private static final Path DIRECTORY_PATH = Path.of("database");
     private static final Type TYPE_TOKEN = new TypeToken<ConcurrentHashMap<String, User>>() { }.getType();
+    private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
 
     private final Path filePath;
     private final Gson gson;
     private final Map<String, User> users;
 
     public UserRepository(String filename) {
+        validateFilename(filename);
+
         this.filePath = Path.of(filename);
         this.gson = GsonProvider.getGson();
+
+        try {
+            Path parent = filePath.getParent();
+            if (parent != null) {
+                Files.createDirectories(parent);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Could not create directory!", e);
+        }
+
         users = loadUsersFromFile();
     }
 
@@ -37,10 +50,14 @@ public class UserRepository {
     }
 
     public User findByEmail(String email) {
+        validateEmail(email);
+
         return users.get(email);
     }
 
     public synchronized void registerUser(User toRegister) {
+        validateUser(toRegister);
+
         if (users.containsKey(toRegister.email())) {
             throw new IllegalArgumentException("User with this email already exists.");
         }
@@ -70,4 +87,25 @@ public class UserRepository {
         }
     }
 
+    private static void validateEmail(String email) {
+        if (email == null || email.isBlank()) {
+            throw new IllegalArgumentException("Email passed is null or blank!");
+        }
+
+        if (!email.matches(EMAIL_REGEX)) {
+            throw new IllegalArgumentException("Email passed is not the right format!");
+        }
+    }
+
+    private static void validateUser(User user) {
+        if (user == null) {
+            throw new IllegalArgumentException("User passed is null!");
+        }
+    }
+
+    private static void validateFilename(String filename) {
+        if (filename == null || filename.isBlank()) {
+            throw new IllegalArgumentException("Filename passed to function is null or blank!");
+        }
+    }
 }

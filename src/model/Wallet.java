@@ -11,6 +11,7 @@ public class Wallet {
     private static final double MINIMUM_AMOUNT = 0.0;
     private static final double EPSILON = 0.00000001;
     private static final int TO_PERCENTAGE = 100;
+    private static final String DOLLAR_SIGN = "$";
 
     private static final String WALLET_SUMMARY_MESSAGE = "WALLET SUMMARY:" + System.lineSeparator();
     private static final String WALLET_OVERALL_SUMMARY_MESSAGE = "WALLET OVERALL SUMMARY:" + System.lineSeparator();
@@ -28,6 +29,14 @@ public class Wallet {
         this.transactionHistory = new ArrayList<>();
     }
 
+    public Wallet(Wallet other) {
+        validateWallet(other);
+
+        this.balanceUsd = other.getBalanceUsd();
+        this.assets = other.getAssets();
+        this.transactionHistory = other.getTransactionHistory();
+    }
+
     public synchronized void deposit(double amount) {
         validatePositive(amount);
         balanceUsd += amount;
@@ -36,8 +45,9 @@ public class Wallet {
     }
 
     public synchronized boolean buy(String assetId, double currentPrice, double amountUsd) {
-        validatePositive(amountUsd);
+        validateAssetId(assetId);
         validatePositive(currentPrice);
+        validatePositive(amountUsd);
 
         if (amountUsd > balanceUsd) {
             return false;
@@ -50,6 +60,7 @@ public class Wallet {
         }
 
         Double existingQuantity = assets.get(assetId);
+
         if (existingQuantity == null) {
             assets.put(assetId, quantity);
         } else {
@@ -65,9 +76,11 @@ public class Wallet {
     }
 
     public synchronized boolean sell(String assetId, double currentPrice) {
+        validateAssetId(assetId);
         validatePositive(currentPrice);
 
         Double quantity = assets.get(assetId);
+
         if (quantity == null || quantity < EPSILON) {
             return false;
         }
@@ -86,20 +99,22 @@ public class Wallet {
         StringBuilder summary = new StringBuilder();
         summary.append(WALLET_SUMMARY_MESSAGE)
                 .append(BALANCE_MESSAGE)
-                .append("$")
+                .append(DOLLAR_SIGN)
                 .append(balanceUsd)
                 .append(System.lineSeparator());
 
         summary.append(TRANSACTION_MESSAGE).append(System.lineSeparator());
 
         for (Transaction transaction : transactionHistory) {
-            summary.append(transaction.toString());
+            summary.append(transaction.toString()).append(System.lineSeparator());
         }
 
         return summary.toString();
     }
 
     public synchronized String getWalletOverallSummary(Map<String, Double> currentPrices) {
+        validateCurrentPrices(currentPrices);
+
         double totalInvested = calculateTotalInvested();
         double currentValue = calculateCurrentValue(currentPrices);
         double profit = currentValue - totalInvested;
@@ -149,16 +164,15 @@ public class Wallet {
         return new ArrayList<>(transactionHistory);
     }
 
-    private void validatePositive(double value) {
+    private static void validatePositive(double value) {
         if (value <= EPSILON) {
-            // to do : handle logic
+            throw new IllegalArgumentException("Parameter 'value' passed should be positive!");
         }
     }
 
     private synchronized double calculateTotalInvested() {
-        return transactionHistory.stream()
-                .filter(t -> t.type() == TransactionType.BUY)
-                .mapToDouble(t -> t.pricePerUnit() * t.quantity())
+        return assets.keySet().stream()
+                .mapToDouble(this::getAssetInvested)
                 .sum();
     }
 
@@ -196,5 +210,23 @@ public class Wallet {
                 .filter(transaction -> transaction.assetID().equals(assetId))
                 .mapToDouble(transaction -> transaction.pricePerUnit() * transaction.quantity())
                 .sum();
+    }
+
+    private static void validateWallet(Wallet wallet) {
+        if (wallet == null) {
+            throw new IllegalArgumentException("Parameter 'wallet' passed to construct an object is null!");
+        }
+    }
+
+    private static void validateAssetId(String assetId) {
+        if (assetId == null || assetId.isBlank()) {
+            throw new IllegalArgumentException("Parameter 'assetId' is null or blank!");
+        }
+    }
+
+    private static void validateCurrentPrices(Map<String, Double> currentPrices) {
+        if (currentPrices == null || currentPrices.isEmpty()) {
+            throw new IllegalArgumentException("Parameter 'currentPrices' passed to function does not contain data!");
+        }
     }
 }

@@ -1,4 +1,4 @@
-package command;
+package command.commands;
 
 import api.AssetCache;
 import model.Asset;
@@ -12,6 +12,9 @@ public final class SummaryOverallCommand implements AuthenticatedCommand {
 
     @Override
     public String execute(User user, AssetCache cache) {
+        validateUser(user);
+        validateCache(cache);
+
         List<Asset> availableAssets = cache.getCachedValues();
 
         if (availableAssets == null || availableAssets.isEmpty()) {
@@ -26,5 +29,17 @@ public final class SummaryOverallCommand implements AuthenticatedCommand {
                 ));
 
         return user.wallet().getWalletOverallSummary(currentPrices);
+    }
+
+    private static void validateUser(User user) {
+        if (user == null) {
+            throw new IllegalArgumentException("Parameter 'user' passed to execute function is null!");
+        }
+    }
+
+    private static void validateCache(AssetCache cache) {
+        if (cache == null || cache.isCacheExpired()) {
+            throw new IllegalArgumentException("Parameter 'cached' passed to execute function is invalid!");
+        }
     }
 }

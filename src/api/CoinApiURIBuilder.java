@@ -1,5 +1,7 @@
 package api;
 
+import logger.Logger;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -10,7 +12,11 @@ public class CoinApiURIBuilder {
 
     private String assetId;
 
+    private static final Logger LOGGER = Logger.getInstance();
+
     public CoinApiURIBuilder withAssetId(String assetId) {
+        validateAssetID(assetId);
+
         this.assetId = assetId;
         return this;
     }
@@ -34,8 +40,15 @@ public class CoinApiURIBuilder {
             );
 
         } catch (URISyntaxException e) {
-            // TO DO : HANDLE LOGIC GLOBALLY
-            throw new IllegalStateException(e);
+            LOGGER.log(e, "SYSTEM_CONFIG");
+            throw new IllegalStateException("Failed to construct a valid URI for CoinAPI", e);
         }
     }
+
+    private static void validateAssetID(String assetId) {
+        if (assetId == null || assetId.isBlank()) {
+            throw new IllegalArgumentException("Invalid assetId passet to construct object of type CoinApiURIBuilder");
+        }
+    }
+
 }
