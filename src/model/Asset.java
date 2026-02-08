@@ -25,6 +25,6 @@ public record Asset(@SerializedName("asset_id")
 
     @Override
     public String toString() {
-        return String.format("%s (%s) — $%.2f", name, id, (price != null ? price : 0.0));
+        return String.format("%s (%s) — $%.2f %n", name, id, (price != null ? price : 0.0));
     }
 }

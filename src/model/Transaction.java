@@ -16,7 +16,7 @@ public record Transaction(String assetID, double pricePerUnit, double quantity,
         double total = pricePerUnit * quantity;
 
         return switch (type) {
-            case DEPOSIT -> String.format("[%s] DEPOSIT: +$%.2f", time, quantity);
+            case DEPOSIT -> String.format("[%s] DEPOSIT: +$%.2f", time, pricePerUnit);
             case BUY -> String
                     .format("[%s] BUY: %.6f %s @ $%.2f = $%.2f", time, quantity, assetID, pricePerUnit, total);
             case SELL -> String

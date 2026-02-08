@@ -1,7 +1,6 @@
 package command.commands;
 
 import api.AssetCache;
-import exception.CacheExpiredException;
 import model.Asset;
 
 import java.util.List;
@@ -19,7 +18,6 @@ public final class ListCommand implements PublicCommand {
 
     @Override
     public String execute() {
-        validateCacheNotExpired(assetCache);
 
         List<Asset> cached =  assetCache.getCachedValues();
 
@@ -39,13 +37,7 @@ public final class ListCommand implements PublicCommand {
 
     private static void validateObjectConstruction(AssetCache assetCache) {
         if (assetCache == null) {
-            throw new IllegalArgumentException("AssetCache is not null");
-        }
-    }
-
-    private static void validateCacheNotExpired(AssetCache assetCache) {
-        if (assetCache.isCacheExpired()) {
-            throw new CacheExpiredException("Cache has not been updated in more than 30 minutes");
+            throw new IllegalArgumentException("AssetCache is null");
         }
     }
 }

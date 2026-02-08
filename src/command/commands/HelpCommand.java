@@ -16,7 +16,7 @@ public final class HelpCommand implements PublicCommand {
         sb.append("help                                         -> Show help message").append(System.lineSeparator());
 
         sb.append("[Authenticated]").append(System.lineSeparator());
-        sb.append("deposit-money <amount>                       -> Add money wallet").append(System.lineSeparator());
+        sb.append("deposit <amount>                             -> Add money wallet").append(System.lineSeparator());
         sb.append("buy --offering=<code> --money=<amount>       -> Buy asset of amount").append(System.lineSeparator());
         sb.append("sell --offering=<code>                       -> Sell asset type").append(System.lineSeparator());
         sb.append("get-wallet-summary                           -> View investments").append(System.lineSeparator());

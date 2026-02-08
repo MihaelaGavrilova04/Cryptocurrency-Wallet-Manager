@@ -1,18 +1,41 @@
 package command.commands;
 
 import api.AssetCache;
+import exception.UnauthenticatedException;
 import model.Asset;
-import model.User;
+import server.session.ClientContext;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public final class SummaryOverallCommand implements AuthenticatedCommand {
+    private final ClientContext clientContext;
+
+    public SummaryOverallCommand(ClientContext clientContext) {
+        validateObjectConstruction(clientContext);
+
+        this.clientContext = clientContext;
+    }
+
+    private static void validateObjectConstruction(ClientContext clientContext) {
+        if (clientContext == null) {
+            throw new IllegalArgumentException("Parameter 'clientContext' passed to construct SummaryCommand object is null!");
+        }
+
+        if (!clientContext.isLoggedIn()) {
+            throw new UnauthenticatedException("No logged in user to summarize their transactions");
+        }
+    }
+
+    private static void validateCache(AssetCache cache) {
+        if (cache == null) {
+            throw new IllegalArgumentException("Parameter 'cached' passed to execute function is invalid!");
+        }
+    }
 
     @Override
-    public String execute(User user, AssetCache cache) {
-        validateUser(user);
+    public String execute(AssetCache cache) {
         validateCache(cache);
 
         List<Asset> availableAssets = cache.getCachedValues();
@@ -21,25 +44,11 @@ public final class SummaryOverallCommand implements AuthenticatedCommand {
             return "No data for available assets present.";
         }
 
-        Map<String, Double> currentPrices = availableAssets.stream()
+        Map<String, Double> currentPrices = availableAssets
+                .stream()
                 .filter(asset -> asset != null && asset.id() != null && asset.price() != null)
-                .collect(Collectors.toMap(
-                        Asset::id,
-                        Asset::price
-                ));
+                .collect(Collectors.toMap(Asset::id, Asset::price));
 
-        return user.wallet().getWalletOverallSummary(currentPrices);
-    }
-
-    private static void validateUser(User user) {
-        if (user == null) {
-            throw new IllegalArgumentException("Parameter 'user' passed to execute function is null!");
-        }
-    }
-
-    private static void validateCache(AssetCache cache) {
-        if (cache == null || cache.isCacheExpired()) {
-            throw new IllegalArgumentException("Parameter 'cached' passed to execute function is invalid!");
-        }
+        return clientContext.getLoggedInUser().wallet().getWalletOverallSummary(currentPrices);
     }
 }

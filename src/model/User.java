@@ -1,5 +1,7 @@
 package model;
 
+import exception.UnauthenticatedException;
+
 import static util.HashingAlgorithm.getHashedPassword;
 import static util.HashingAlgorithm.verifyPassword;
 
@@ -36,21 +38,21 @@ public record User(String email, String passwordHash, Wallet wallet) {
 
     private static void validateEmail(String email) {
         if (email == null || email.isBlank()) {
-            throw new IllegalArgumentException("Email passed is null or blank!");
+            throw new IllegalArgumentException("The email passed is invalid!");
         }
 
         if (!email.matches(EMAIL_REGEX)) {
-            throw new IllegalArgumentException("Email passed is not the right format!");
+            throw new IllegalArgumentException("The email passed is invalid format! Expected: example@domain.com");
         }
     }
 
     private static void validatePassword(String password) {
         if (password == null || password.isBlank()) {
-            throw new IllegalArgumentException("Password is null or blank!");
+            throw new IllegalArgumentException("The password passed is invalid!");
         }
 
         if (password.length() < MINIMUM_PASSWORD_LENGTH) {
-            throw new IllegalArgumentException("Password is too short to be safe to use!");
+            throw new IllegalArgumentException("The password passed is too short to be safe to use!");
         }
     }
 

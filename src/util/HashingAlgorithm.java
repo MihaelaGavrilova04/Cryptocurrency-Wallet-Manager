@@ -1,11 +1,15 @@
 package util;
 
+import logger.Logger;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class HashingAlgorithm {
     private static final String HASHING_ALGORITHM = "SHA-256";
     private static final String BYTE_FORMAT = "%02x";
+
+    private static final Logger LOGGER = Logger.getInstance();
 
     public static String getHashedPassword(String password) {
 
@@ -23,6 +27,7 @@ public class HashingAlgorithm {
             return hexString.toString();
 
         } catch (NoSuchAlgorithmException e) {
+            LOGGER.log(e, "SYSTEM");
             throw new RuntimeException("No such algorithm", e);
         }
     }
