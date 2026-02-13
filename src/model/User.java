@@ -20,37 +20,43 @@ public record User(String email, String passwordHash, Wallet wallet) {
     public static User create(String email, String plainPassword, Wallet wallet) {
         validateEmail(email);
         validatePassword(plainPassword);
+        validateWallet(wallet);
 
         String hashedPassword = getHashedPassword(plainPassword);
 
-        Wallet newWallet = new Wallet();
-        newWallet.deposit(wallet.getBalanceUsd());
-
-        return new User(email, hashedPassword, newWallet);
+        return new User(email, hashedPassword, new Wallet(wallet));
     }
 
     public static User load(String email, String passwordHash, Wallet wallet) {
         validateEmail(email);
+        validateWallet(wallet);
+
         return new User(email, passwordHash, wallet);
     }
 
     private static void validateEmail(String email) {
-        if (email == null || email.trim().isEmpty()) {
-            // TO DO : handle error & logging
+        if (email == null || email.isBlank()) {
+            throw new IllegalArgumentException("The email passed is invalid!");
         }
 
         if (!email.matches(EMAIL_REGEX)) {
-            // TO DO : handle error & logging
+            throw new IllegalArgumentException("The email passed is invalid format! Expected: example@domain.com");
         }
     }
 
     private static void validatePassword(String password) {
-        if (password == null || password.trim().isEmpty()) {
-            // TO DO : handle error & logging
+        if (password == null || password.isBlank()) {
+            throw new IllegalArgumentException("The password passed is invalid!");
         }
 
         if (password.length() < MINIMUM_PASSWORD_LENGTH) {
-            // TO DO : handle error & logging
+            throw new IllegalArgumentException("The password passed is too short to be safe to use!");
+        }
+    }
+
+    private static void validateWallet(Wallet wallet) {
+        if (wallet == null) {
+            throw new IllegalArgumentException("Parameter 'wallet' passed to function is null!");
         }
     }
 
