@@ -1,13 +1,4 @@
 {
-  "petya@abv.bg": {
-    "email": "petya@abv.bg",
-    "passwordHash": "1b0f13d59ce2769f3dce0fb521f4c35b79fe123b18886400cba4424aa00d24b4",
-    "wallet": {
-      "balanceUsd": 0.0,
-      "assets": {},
-      "transactionHistory": []
-    }
-  },
   "mihaela@abv.bg": {
     "email": "mihaela@abv.bg",
     "passwordHash": "c03bc0cddac8484b56c2639fffaa63c42fa942717d6302d26a7f708eeeb22a97",
@@ -37,6 +28,80 @@
           "quantity": 1.0,
           "type": "DEPOSIT",
           "timestamp": "2026-02-08T17:29:25.2375986"
+        }
+      ]
+    }
+  },
+  "petya@abv.bg": {
+    "email": "petya@abv.bg",
+    "passwordHash": "1b0f13d59ce2769f3dce0fb521f4c35b79fe123b18886400cba4424aa00d24b4",
+    "wallet": {
+      "balanceUsd": 0.0,
+      "assets": {},
+      "transactionHistory": []
+    }
+  },
+  "boris@abv.bg": {
+    "email": "boris@abv.bg",
+    "passwordHash": "d7ab731e7dc6387ebc3675be0ae3056ad5bbf551555fabb5c80b457068a2fee4",
+    "wallet": {
+      "balanceUsd": 99800.0,
+      "assets": {
+        "BTC": 0.0023120729745720525,
+        "NEAR3L": 4817196.292528787
+      },
+      "transactionHistory": [
+        {
+          "assetID": "USD",
+          "pricePerUnit": 100000.0,
+          "quantity": 1.0,
+          "type": "DEPOSIT",
+          "timestamp": "2026-02-13T14:32:25.3259706"
+        },
+        {
+          "assetID": "BTC",
+          "pricePerUnit": 43251.23,
+          "quantity": 0.0023120729745720525,
+          "type": "BUY",
+          "timestamp": "2026-02-13T14:32:41.8761932"
+        },
+        {
+          "assetID": "NEAR3L",
+          "pricePerUnit": 2.07589630829648E-5,
+          "quantity": 4817196.292528787,
+          "type": "BUY",
+          "timestamp": "2026-02-13T14:47:38.3072504"
+        }
+      ]
+    }
+  },
+  "bobi@abv.bg": {
+    "email": "bobi@abv.bg",
+    "passwordHash": "d7ab731e7dc6387ebc3675be0ae3056ad5bbf551555fabb5c80b457068a2fee4",
+    "wallet": {
+      "balanceUsd": 1000.0,
+      "assets": {},
+      "transactionHistory": [
+        {
+          "assetID": "USD",
+          "pricePerUnit": 1000.0,
+          "quantity": 1.0,
+          "type": "DEPOSIT",
+          "timestamp": "2026-02-13T15:03:08.0004613"
+        },
+        {
+          "assetID": "VAL",
+          "pricePerUnit": 0.00102883234750029,
+          "quantity": 97197.56600088025,
+          "type": "BUY",
+          "timestamp": "2026-02-13T15:03:40.5902289"
+        },
+        {
+          "assetID": "VAL",
+          "pricePerUnit": 0.00102883234750029,
+          "quantity": 97197.56600088025,
+          "type": "SELL",
+          "timestamp": "2026-02-13T15:03:58.3820157"
         }
       ]
     }
@@ -79,15 +144,6 @@
           "timestamp": "2026-02-08T16:44:40.8518427"
         }
       ]
-    }
-  },
-  "bobi@abv.bg": {
-    "email": "bobi@abv.bg",
-    "passwordHash": "d7ab731e7dc6387ebc3675be0ae3056ad5bbf551555fabb5c80b457068a2fee4",
-    "wallet": {
-      "balanceUsd": 0.0,
-      "assets": {},
-      "transactionHistory": []
     }
   },
   "eva@abv.bg": {

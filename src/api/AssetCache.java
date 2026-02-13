@@ -2,14 +2,16 @@ package api;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import exception.AssetNotFoundException;
+import exception.CoinAPIException;
 import logger.Logger;
 import model.Asset;
 import util.GsonProvider;
 
 import java.lang.reflect.Type;
+import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -118,57 +120,51 @@ public class AssetCache implements AutoCloseable {
         this.scheduler.shutdown();
     }
 
-/*
- * DISCLAIMER:
- * The original API integration is currently disabled because the CoinAPI
- * free tier has a very strict quota limit. I attempted to create a new
- * profile to reset the limit, but it appears that a unique credit card
- * is required for each account to prevent quota abuse. As the API now
- * returns a "403 Forbidden (Quota Exceeded)" error, I have implemented
- * this mock data fallback. This ensures that the core business logic
- * (buying, selling, and portfolio management) remains fully functional
- * and testable during the project defense.
- */
-
-//    private synchronized void updateCache() {
-//        if (!isCacheExpired()) {
-//            return;
-//        }
-//        try {
-//            HttpResponse<String> response = apiCall.fetchAll();
-//
-//            List<Asset> assets = parseResponse(response.body());
-//            updateCacheMap(assets);
-//            lastUpdated = LocalDateTime.now();
-//            System.out.println("Cached assets: " + assetCache.keySet());
-//        } catch (CoinAPIException | AssetNotFoundException e) {
-//            LOGGER.log(e, "SYSTEM_CACHE");
-//        } catch (Exception e) {
-//            LOGGER.log(e, "SYSTEM_FATAL");
-//        }
-//    }
-
     private synchronized void updateCache() {
-
+        if (!isCacheExpired()) {
+            return;
+        }
         try {
-            List<Asset> assets = parseResponse(JSON_RESPONSE);
-
-            Map<String, Asset> newEntries = new HashMap<>();
-            for (Asset asset : assets) {
-                if (asset != null && asset.id() != null) {
-                    newEntries.put(asset.id().toUpperCase(), asset);
-                }
-            }
-
-            assetCache.clear();
-            assetCache.putAll(newEntries);
-
+            HttpResponse<String> response = apiCall.fetchAll();
+            List<Asset> assets = parseResponse(response.body());
+            updateCacheMap(assets);
             lastUpdated = LocalDateTime.now();
-
+            System.out.println("Cached assets: " + assetCache.keySet());
+        } catch (CoinAPIException | AssetNotFoundException e) {
+            LOGGER.log(e, "SYSTEM_CACHE");
         } catch (Exception e) {
-            LOGGER.log(e, "SYSTEM_CACHE_ERROR");
+            LOGGER.log(e, "SYSTEM_FATAL");
         }
     }
+
+/*
+* DISCLAIMER:
+* The original API integration has a credit limit of $25
+* In case of negative balance, you can test the console application with some hardcoded data,
+* You can also try to make a new account to get extra $25 for testing purposes
+*/
+
+//    private synchronized void updateCache() {
+//
+//        try {
+//            List<Asset> assets = parseResponse(JSON_RESPONSE);
+//
+//            Map<String, Asset> newEntries = new HashMap<>();
+//            for (Asset asset : assets) {
+//                if (asset != null && asset.id() != null) {
+//                    newEntries.put(asset.id().toUpperCase(), asset);
+//                }
+//            }
+//
+//            assetCache.clear();
+//            assetCache.putAll(newEntries);
+//
+//            lastUpdated = LocalDateTime.now();
+//
+//        } catch (Exception e) {
+//            LOGGER.log(e, "SYSTEM_CACHE_ERROR");
+//        }
+//    }
 
     private void updateCacheMap(List<Asset> assets) {
         assetCache.clear();
