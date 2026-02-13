@@ -1,0 +1,296 @@
+{
+  "petya@abv.bg": {
+    "email": "petya@abv.bg",
+    "passwordHash": "1b0f13d59ce2769f3dce0fb521f4c35b79fe123b18886400cba4424aa00d24b4",
+    "wallet": {
+      "balanceUsd": 0.0,
+      "assets": {},
+      "transactionHistory": []
+    }
+  },
+  "mihaela@abv.bg": {
+    "email": "mihaela@abv.bg",
+    "passwordHash": "c03bc0cddac8484b56c2639fffaa63c42fa942717d6302d26a7f708eeeb22a97",
+    "wallet": {
+      "balanceUsd": 150.0,
+      "assets": {
+        "BTC": 0.0011560364872860262
+      },
+      "transactionHistory": [
+        {
+          "assetID": "USD",
+          "pricePerUnit": 1.0,
+          "quantity": 100.0,
+          "type": "DEPOSIT",
+          "timestamp": "2026-02-08T12:35:16.8574873"
+        },
+        {
+          "assetID": "BTC",
+          "pricePerUnit": 43251.23,
+          "quantity": 0.0011560364872860262,
+          "type": "BUY",
+          "timestamp": "2026-02-08T12:39:38.8227809"
+        },
+        {
+          "assetID": "USD",
+          "pricePerUnit": 100.0,
+          "quantity": 1.0,
+          "type": "DEPOSIT",
+          "timestamp": "2026-02-08T17:29:25.2375986"
+        }
+      ]
+    }
+  },
+  "mira@abv.bg": {
+    "email": "mira@abv.bg",
+    "passwordHash": "712803379fed478e7c32516731b9e28efc9f6c35e0101b49a5492d82ff3e76e3",
+    "wallet": {
+      "balanceUsd": 980.0,
+      "assets": {
+        "BTC": 4.624145949144105E-4
+      },
+      "transactionHistory": [
+        {
+          "assetID": "USD",
+          "pricePerUnit": 1000.0,
+          "quantity": 1.0,
+          "type": "DEPOSIT",
+          "timestamp": "2026-02-08T16:42:54.8701812"
+        },
+        {
+          "assetID": "BTC",
+          "pricePerUnit": 43251.23,
+          "quantity": 0.004624145949144105,
+          "type": "BUY",
+          "timestamp": "2026-02-08T16:44:14.4042325"
+        },
+        {
+          "assetID": "BTC",
+          "pricePerUnit": 43251.23,
+          "quantity": 0.004624145949144105,
+          "type": "SELL",
+          "timestamp": "2026-02-08T16:44:25.6586953"
+        },
+        {
+          "assetID": "BTC",
+          "pricePerUnit": 43251.23,
+          "quantity": 4.624145949144105E-4,
+          "type": "BUY",
+          "timestamp": "2026-02-08T16:44:40.8518427"
+        }
+      ]
+    }
+  },
+  "bobi@abv.bg": {
+    "email": "bobi@abv.bg",
+    "passwordHash": "d7ab731e7dc6387ebc3675be0ae3056ad5bbf551555fabb5c80b457068a2fee4",
+    "wallet": {
+      "balanceUsd": 0.0,
+      "assets": {},
+      "transactionHistory": []
+    }
+  },
+  "eva@abv.bg": {
+    "email": "eva@abv.bg",
+    "passwordHash": "7b9fa88c6a1c4baf20c40f8607ce8d5df8c1a3fb043e8e955699b9a7a9cb0de3",
+    "wallet": {
+      "balanceUsd": 959.0,
+      "assets": {
+        "ETH": 0.017745460840961718
+      },
+      "transactionHistory": [
+        {
+          "assetID": "USD",
+          "pricePerUnit": 1000.0,
+          "quantity": 1.0,
+          "type": "DEPOSIT",
+          "timestamp": "2026-02-08T17:10:29.6194937"
+        },
+        {
+          "assetID": "BTC",
+          "pricePerUnit": 43251.23,
+          "quantity": 0.001364123054997511,
+          "type": "BUY",
+          "timestamp": "2026-02-08T17:11:54.3355546"
+        },
+        {
+          "assetID": "ETH",
+          "pricePerUnit": 2310.45,
+          "quantity": 0.017745460840961718,
+          "type": "BUY",
+          "timestamp": "2026-02-08T17:12:33.5511621"
+        },
+        {
+          "assetID": "BTC",
+          "pricePerUnit": 43251.23,
+          "quantity": 0.001364123054997511,
+          "type": "SELL",
+          "timestamp": "2026-02-08T17:30:57.2444252"
+        }
+      ]
+    }
+  },
+  "petya@gmail.com": {
+    "email": "petya@gmail.com",
+    "passwordHash": "1b0f13d59ce2769f3dce0fb521f4c35b79fe123b18886400cba4424aa00d24b4",
+    "wallet": {
+      "balanceUsd": 0.0,
+      "assets": {},
+      "transactionHistory": []
+    }
+  },
+  "veronika@gmail.com": {
+    "email": "veronika@gmail.com",
+    "passwordHash": "d58da41e0f5515574c3045d5a2047f88b127cb9de1ccbbde2bf57f23f987d69c",
+    "wallet": {
+      "balanceUsd": 0.0,
+      "assets": {},
+      "transactionHistory": []
+    }
+  },
+  "tanya@gmail.com": {
+    "email": "tanya@gmail.com",
+    "passwordHash": "f8f93fbf3994c86c88a210bb74ac657334ab0b67e02abea5760a72d94ee0a2e7",
+    "wallet": {
+      "balanceUsd": 0.0,
+      "assets": {},
+      "transactionHistory": []
+    }
+  },
+  "boris@gmail.com": {
+    "email": "boris@gmail.com",
+    "passwordHash": "93e94d9ebb87095a5058700653664010e4a281e01bb5078e1823b829c54db583",
+    "wallet": {
+      "balanceUsd": 800.0,
+      "assets": {
+        "BTC": 0.004624145949144105
+      },
+      "transactionHistory": [
+        {
+          "assetID": "USD",
+          "pricePerUnit": 1000.0,
+          "quantity": 1.0,
+          "type": "DEPOSIT",
+          "timestamp": "2026-02-08T16:29:36.5582748"
+        },
+        {
+          "assetID": "BTC",
+          "pricePerUnit": 43251.23,
+          "quantity": 4.624145949144105E-4,
+          "type": "BUY",
+          "timestamp": "2026-02-08T16:30:02.5999811"
+        },
+        {
+          "assetID": "BTC",
+          "pricePerUnit": 43251.23,
+          "quantity": 2.3120729745720525E-4,
+          "type": "BUY",
+          "timestamp": "2026-02-08T16:30:17.1589208"
+        },
+        {
+          "assetID": "BTC",
+          "pricePerUnit": 43251.23,
+          "quantity": 6.936218923716158E-4,
+          "type": "SELL",
+          "timestamp": "2026-02-08T16:30:44.68138"
+        },
+        {
+          "assetID": "BTC",
+          "pricePerUnit": 43251.23,
+          "quantity": 6.936218923716158E-4,
+          "type": "BUY",
+          "timestamp": "2026-02-08T16:31:18.8881859"
+        },
+        {
+          "assetID": "BTC",
+          "pricePerUnit": 43251.23,
+          "quantity": 6.936218923716158E-4,
+          "type": "SELL",
+          "timestamp": "2026-02-08T16:37:33.2829491"
+        },
+        {
+          "assetID": "BTC",
+          "pricePerUnit": 43251.23,
+          "quantity": 0.004624145949144105,
+          "type": "BUY",
+          "timestamp": "2026-02-08T16:39:06.1175078"
+        }
+      ]
+    }
+  },
+  "eva@gmail.com": {
+    "email": "eva@gmail.com",
+    "passwordHash": "7b9fa88c6a1c4baf20c40f8607ce8d5df8c1a3fb043e8e955699b9a7a9cb0de3",
+    "wallet": {
+      "balanceUsd": 0.0,
+      "assets": {},
+      "transactionHistory": []
+    }
+  },
+  "emo@abv.bg": {
+    "email": "emo@abv.bg",
+    "passwordHash": "2bd08b23cc11543197462663300f6cdafc8e164db764a686d5c8ea74b68f5b63",
+    "wallet": {
+      "balanceUsd": 1.0E7,
+      "assets": {},
+      "transactionHistory": [
+        {
+          "assetID": "USD",
+          "pricePerUnit": 1.0E7,
+          "quantity": 1.0,
+          "type": "DEPOSIT",
+          "timestamp": "2026-02-13T12:27:14.3903055"
+        }
+      ]
+    }
+  },
+  "simeon@gmail.com": {
+    "email": "simeon@gmail.com",
+    "passwordHash": "3e9553f34d6731a75cc2dcc1bf530004a78c1b4679be2d8956294f4136d9e04b",
+    "wallet": {
+      "balanceUsd": 0.0,
+      "assets": {},
+      "transactionHistory": []
+    }
+  },
+  "bobi@gmail.com": {
+    "email": "bobi@gmail.com",
+    "passwordHash": "d7ab731e7dc6387ebc3675be0ae3056ad5bbf551555fabb5c80b457068a2fee4",
+    "wallet": {
+      "balanceUsd": 900.0,
+      "assets": {
+        "BTC": 0.0023120729745720525
+      },
+      "transactionHistory": [
+        {
+          "assetID": "USD",
+          "pricePerUnit": 1000.0,
+          "quantity": 1.0,
+          "type": "DEPOSIT",
+          "timestamp": "2026-02-13T12:58:30.6382338"
+        },
+        {
+          "assetID": "BTC",
+          "pricePerUnit": 43251.23,
+          "quantity": 0.0023120729745720525,
+          "type": "BUY",
+          "timestamp": "2026-02-13T12:59:04.1111856"
+        },
+        {
+          "assetID": "BTC",
+          "pricePerUnit": 43251.23,
+          "quantity": 0.0023120729745720525,
+          "type": "SELL",
+          "timestamp": "2026-02-13T12:59:55.7861932"
+        },
+        {
+          "assetID": "BTC",
+          "pricePerUnit": 43251.23,
+          "quantity": 0.0023120729745720525,
+          "type": "BUY",
+          "timestamp": "2026-02-13T13:01:13.7125228"
+        }
+      ]
+    }
+  }
+}

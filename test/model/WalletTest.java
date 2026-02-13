@@ -34,7 +34,6 @@ public class WalletTest {
         assertEquals(valueToDeposit, wallet.getBalanceUsd());
     }
 
-    @Disabled
     @Test
     void testDepositNegativeAmount() {
         double valueToDeposit = - 5.00;
@@ -57,18 +56,16 @@ public class WalletTest {
 
         assertEquals("deposit", toTest.type().getTransaction());
         assertEquals("USD", toTest.assetID());
-        assertEquals(1.0, toTest.pricePerUnit());
-        assertEquals(valueToDeposit, toTest.quantity());
+        assertEquals(valueToDeposit, toTest.pricePerUnit());
+        assertEquals(1.0, toTest.quantity());
         assertEquals("deposit", history.get(0).type().getTransaction());
     }
 
-    @Disabled
     @Test
     void testBuyNegativePrice() {
         assertThrows(IllegalArgumentException.class, () -> wallet.buy("BTC", -5.0, 0.2), "Price is supposed to be a positive double");
     }
 
-    @Disabled
     @Test
     void testBuyNegativeAmount() {
         assertThrows(IllegalArgumentException.class, () -> wallet.buy("BTC", 5.0, -0.2), "Amount is supposed to be a positive double");
@@ -105,7 +102,6 @@ public class WalletTest {
         assertEquals("buy", history.get(2).type().getTransaction());
     }
 
-    @Disabled
     @Test
     void testSellNegativePrice() {
         assertThrows(IllegalArgumentException.class, () -> wallet.sell("BTC", -1.0), "Sell price is supposed to be positive double!");
@@ -137,7 +133,7 @@ public class WalletTest {
         assertEquals("buy", history.get(1).type().getTransaction());
         assertEquals("sell", history.get(2).type().getTransaction());
 
-        assertEquals(1.00, history.get(0).pricePerUnit());
+        assertEquals(100.00, history.get(0).pricePerUnit());
         assertEquals(100.00, history.get(1).pricePerUnit());
         assertEquals(100.00, history.get(2).pricePerUnit());
     }
@@ -147,9 +143,7 @@ public class WalletTest {
         Wallet wallet = new Wallet();
         wallet.deposit(1000.0);
 
-        Map<String, Double> prices = Map.of("BTC", 50000.0);
-
-        String summary = wallet.getWalletSummary(prices);
+        String summary = wallet.getWalletSummary();
 
         assertNotNull(summary);
         assertTrue(summary.contains("$1000"));
@@ -164,8 +158,7 @@ public class WalletTest {
         boolean btcResult = wallet.buy("BTC", 500, 0.1);
         boolean ethResult = wallet.buy("ETH", 200.0, 2.0);
 
-        Map<String, Double> prices = Map.of("BTC", 500.0, "ETH", 200.0);
-        String summary = wallet.getWalletSummary(prices);
+        String summary = wallet.getWalletSummary();
 
         assertNotNull(summary);
 
@@ -180,9 +173,7 @@ public class WalletTest {
         Wallet wallet = new Wallet();
         wallet.deposit(500.0);
 
-        Map<String, Double> prices = new HashMap<>();
-
-        String summary = wallet.getWalletSummary(prices);
+        String summary = wallet.getWalletSummary();
 
         assertNotNull(summary);
         assertFalse(summary.isEmpty());
