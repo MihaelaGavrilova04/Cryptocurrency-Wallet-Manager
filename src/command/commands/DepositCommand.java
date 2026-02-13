@@ -34,7 +34,8 @@ public final class DepositCommand implements AuthenticatedCommand {
                 moneyToDeposit, loggedInUser.email());
     }
 
-    private static void validateObjectConstruction(double money, ClientContext clientContext, UserRepository userRepository) {
+    private static void validateObjectConstruction(double money, ClientContext clientContext,
+                                                   UserRepository userRepository) {
         if (money < EPSILON) {
             throw new InvalidCommandException("The amount of money is expected to be positive when depositing!");
         }

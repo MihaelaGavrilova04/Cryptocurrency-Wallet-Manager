@@ -39,7 +39,8 @@ public final class SellCommand implements AuthenticatedCommand {
         return String.format("You [ %s ] could not sell %s! Not present in wallet!", loggedInUser.email(), assetId);
     }
 
-    private static void validateObjectConstruction(String assetId, ClientContext clientContext, UserRepository userRepository) {
+    private static void validateObjectConstruction(String assetId, ClientContext clientContext,
+                                                   UserRepository userRepository) {
         if (assetId == null || assetId.isBlank()) {
             throw new InvalidCommandException("The asset ID you want to operate on is invalid!");
         }

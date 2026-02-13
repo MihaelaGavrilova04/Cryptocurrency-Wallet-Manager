@@ -1,7 +1,5 @@
 package model;
 
-import exception.UnauthenticatedException;
-
 import static util.HashingAlgorithm.getHashedPassword;
 import static util.HashingAlgorithm.verifyPassword;
 

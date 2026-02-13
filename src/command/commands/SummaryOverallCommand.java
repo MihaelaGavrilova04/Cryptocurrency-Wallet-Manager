@@ -20,7 +20,7 @@ public final class SummaryOverallCommand implements AuthenticatedCommand {
 
     private static void validateObjectConstruction(ClientContext clientContext) {
         if (clientContext == null) {
-            throw new IllegalArgumentException("Parameter 'clientContext' passed to construct SummaryCommand object is null!");
+            throw new IllegalArgumentException("Parameter 'clientContext' to construct SummaryCommand object is null!");
         }
 
         if (!clientContext.isLoggedIn()) {

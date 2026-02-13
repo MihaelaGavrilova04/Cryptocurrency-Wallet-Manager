@@ -1,7 +1,6 @@
 package command.commands;
 
 import exception.InvalidCommandException;
-import exception.UserAlreadyLoggedInException;
 import model.User;
 import repository.UserRepository;
 import server.session.ClientContext;

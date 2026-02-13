@@ -35,7 +35,6 @@ public class CryptocurrencyWalletManagerClient {
                 printWriter.println(input);
 
                 String reply;
-
                 while ((reply = bufferedReader.readLine()) != null) {
                     if (reply.equals(STOP_WORD)) {
                         break;

@@ -4,7 +4,7 @@ import api.AssetCache;
 import server.session.ClientContext;
 
 public final class LogoutCommand implements AuthenticatedCommand {
-    public static final String LOGOUT_SUCCESS = "Logged out successfully!";
+    private static final String LOGOUT_SUCCESS = "Logged out successfully!";
     private final ClientContext clientContext;
 
     public LogoutCommand(ClientContext context) {

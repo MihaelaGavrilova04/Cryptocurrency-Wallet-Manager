@@ -17,7 +17,6 @@ public final class BuyCommand implements AuthenticatedCommand {
 
     public BuyCommand(String assetId, double money, ClientContext clientContext, UserRepository userRepository) {
         validateObjectConstruction(assetId, money, clientContext, userRepository);
-
         this.assetId = assetId.toUpperCase();
         this.money = money;
         this.clientContext = clientContext;
@@ -46,7 +45,8 @@ public final class BuyCommand implements AuthenticatedCommand {
         return "Failed: Not enough money.";
     }
 
-    private static void validateObjectConstruction(String assetId, double money, ClientContext clientContext, UserRepository userRepository) {
+    private static void validateObjectConstruction(String assetId, double money,
+                                                   ClientContext clientContext, UserRepository userRepository) {
         if (assetId == null || assetId.isBlank()) {
             throw new InvalidCommandException("The id of the asset passed is invalid!");
         }

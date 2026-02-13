@@ -2,16 +2,14 @@ package api;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-//import exception.AssetNotFoundException;
-//import exception.CoinAPIException;
 import logger.Logger;
 import model.Asset;
 import util.GsonProvider;
 
 import java.lang.reflect.Type;
-//import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -37,6 +35,19 @@ public class AssetCache implements AutoCloseable {
 
     private static final Logger LOGGER = Logger.getInstance();
 
+    private static final String JSON_RESPONSE = """
+            [
+              { "asset_id": "BTC", "name": "Bitcoin", "type_is_crypto": 1, "price_usd": 43251.23 },
+              { "asset_id": "ETH", "name": "Ethereum", "type_is_crypto": 1, "price_usd": 2310.45 },
+              { "asset_id": "BNB", "name": "BNB", "type_is_crypto": 1, "price_usd": 305.12 },
+              { "asset_id": "SOL", "name": "Solana", "type_is_crypto": 1, "price_usd": 98.77 },
+              { "asset_id": "ADA", "name": "Cardano", "type_is_crypto": 1, "price_usd": 0.62 },
+              { "asset_id": "DOGE", "name": "Dogecoin", "type_is_crypto": 1, "price_usd": 0.085 },
+              { "asset_id": "XRP", "name": "XRP", "type_is_crypto": 1, "price_usd": 0.57 },
+              { "asset_id": "USDT", "name": "Tether", "type_is_crypto": 1, "price_usd": 1.0 },
+              { "asset_id": "USD", "name": "US Dollar", "type_is_crypto": 0, "price_usd": 1.0 }
+            ]
+            """;
     public AssetCache(ApiCall apiCall) {
         validateApiCall(apiCall);
 
@@ -85,6 +96,7 @@ public class AssetCache implements AutoCloseable {
         validateAssetID(assetId);
 
         Asset asset = getAssetById(assetId);
+
         return asset != null ? asset.price() : null;
     }
 
@@ -106,6 +118,18 @@ public class AssetCache implements AutoCloseable {
         this.scheduler.shutdown();
     }
 
+/*
+ * DISCLAIMER:
+ * The original API integration is currently disabled because the CoinAPI
+ * free tier has a very strict quota limit. I attempted to create a new
+ * profile to reset the limit, but it appears that a unique credit card
+ * is required for each account to prevent quota abuse. As the API now
+ * returns a "403 Forbidden (Quota Exceeded)" error, I have implemented
+ * this mock data fallback. This ensures that the core business logic
+ * (buying, selling, and portfolio management) remains fully functional
+ * and testable during the project defense.
+ */
+
 //    private synchronized void updateCache() {
 //        if (!isCacheExpired()) {
 //            return;
@@ -116,7 +140,7 @@ public class AssetCache implements AutoCloseable {
 //            List<Asset> assets = parseResponse(response.body());
 //            updateCacheMap(assets);
 //            lastUpdated = LocalDateTime.now();
-//
+//            System.out.println("Cached assets: " + assetCache.keySet());
 //        } catch (CoinAPIException | AssetNotFoundException e) {
 //            LOGGER.log(e, "SYSTEM_CACHE");
 //        } catch (Exception e) {
@@ -127,23 +151,9 @@ public class AssetCache implements AutoCloseable {
     private synchronized void updateCache() {
 
         try {
-            String jsonResponse = """
-            [
-              { "asset_id": "BTC", "name": "Bitcoin", "type_is_crypto": 1, "price_usd": 43251.23 },
-              { "asset_id": "ETH", "name": "Ethereum", "type_is_crypto": 1, "price_usd": 2310.45 },
-              { "asset_id": "BNB", "name": "BNB", "type_is_crypto": 1, "price_usd": 305.12 },
-              { "asset_id": "SOL", "name": "Solana", "type_is_crypto": 1, "price_usd": 98.77 },
-              { "asset_id": "ADA", "name": "Cardano", "type_is_crypto": 1, "price_usd": 0.62 },
-              { "asset_id": "DOGE", "name": "Dogecoin", "type_is_crypto": 1, "price_usd": 0.085 },
-              { "asset_id": "XRP", "name": "XRP", "type_is_crypto": 1, "price_usd": 0.57 },
-              { "asset_id": "USDT", "name": "Tether", "type_is_crypto": 1, "price_usd": 1.0 },
-              { "asset_id": "USD", "name": "US Dollar", "type_is_crypto": 0, "price_usd": 1.0 }
-            ]
-            """;
+            List<Asset> assets = parseResponse(JSON_RESPONSE);
 
-            List<Asset> assets = parseResponse(jsonResponse);
-
-            Map<String, Asset> newEntries = new java.util.HashMap<>();
+            Map<String, Asset> newEntries = new HashMap<>();
             for (Asset asset : assets) {
                 if (asset != null && asset.id() != null) {
                     newEntries.put(asset.id().toUpperCase(), asset);

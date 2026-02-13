@@ -33,22 +33,26 @@ public class ApiCallTest {
 
     @Test
     void testApiCallConstruction() {
-        assertDoesNotThrow(()->new ApiCall("dummy-key", httpClientMock));
+        assertDoesNotThrow(()->new ApiCall("dummy-key", httpClientMock),
+                "When constructed with valid arguments, ApiCall should not throw an exception");
     }
 
     @Test
     void testApiCallConstructionNullKey() {
-        assertThrows(IllegalArgumentException.class, ()->new ApiCall(null, HttpClient.newBuilder().build()), "When ApiCall object is constructed with invalid params, IllegalArgumentException is expected!");
+        assertThrows(IllegalArgumentException.class, ()->new ApiCall(null, HttpClient.newBuilder().build()),
+                "When ApiCall object is constructed with invalid params, IllegalArgumentException is expected!");
     }
 
     @Test
     void testApiCallConstructionBlankKey() {
-        assertThrows(IllegalArgumentException.class, ()->new ApiCall("", HttpClient.newBuilder().build()), "When ApiCall object is constructed with invalid params, IllegalArgumentException is expected!");
+        assertThrows(IllegalArgumentException.class, ()->new ApiCall("", HttpClient.newBuilder().build()),
+                "When ApiCall object is constructed with invalid params, IllegalArgumentException is expected!");
     }
 
     @Test
     void testApiCallConstructionNullHttpClient() {
-        assertThrows(IllegalArgumentException.class, ()->new ApiCall("dummy-key", null), "When ApiCall object is constructed with invalid params, IllegalArgumentException is expected!");
+        assertThrows(IllegalArgumentException.class, ()->new ApiCall("dummy-key", null),
+                "When ApiCall object is constructed with invalid params, IllegalArgumentException is expected!");
     }
 
     @Test
@@ -92,7 +96,7 @@ public class ApiCallTest {
     @Test
     void testFetchByIDInvalidParams() {
         assertThrows(IllegalArgumentException.class, () -> apiCall.fetchByID(null),
-                "Should throw for null asset ID");
+                "When null asset ID is passed, IllegalArgumentException is expected");
     }
 
     @Test

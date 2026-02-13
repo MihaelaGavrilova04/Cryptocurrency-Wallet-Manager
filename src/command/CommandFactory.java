@@ -146,7 +146,6 @@ public class CommandFactory {
 
         String assetId = tokens[ASSET_ID_INDEX].replace(ASSET_FLAG, "");
         double amount = parseDoubleSafely(tokens[BUY_MONEY_AMOUNT_INDEX].replace(MONEY_FLAG, ""));
-
         return new BuyCommand(assetId, amount, context, repository);
     }
 
